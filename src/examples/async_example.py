@@ -16,7 +16,7 @@ def run_async():
         print(future.result())
 
     onvif_client = AsyncONVIFClient(
-        host='http://10.19.57.72',
+        host='10.19.57.72',
         port=80,
         username='admin',
         password='Angelcam123',
@@ -40,7 +40,7 @@ def run_sync():
     st = time.time()
 
     onvif_client = ONVIFClient(
-        host='http://10.19.57.72',
+        host='10.19.57.72',
         port=80,
         username='admin',
         password='Angelcam123',

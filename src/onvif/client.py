@@ -39,7 +39,8 @@ class ONVIFClient:
     def __get_address(self, name):
         if not (self.__paths_loaded or name == settings.DEVICE):
             self.__load_paths()
-        return "{host}:{port}{service_point}".format(
+        return "{scheme}://{host}:{port}{service_point}".format(
+            scheme='http',
             host=self.__host,
             port=self.__port,
             service_point=self.__addr_paths.get(name)

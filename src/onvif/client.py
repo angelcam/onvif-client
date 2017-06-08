@@ -12,10 +12,11 @@ from onvif import settings
 
 class ONVIFClient:
 
-    def __init__(self, host, port, username=None, password=None):
+    def __init__(self, host, port, username=None, password=None, timeout=None):
         self.__host = host
         self.__port = int(port)
         self.__token = None
+        self.__timeout = timeout
         if username is not None and password is not None:
             self.__token = UsernameToken(username, password, use_digest=True)
         self.__transport = self._get_transport()
@@ -71,7 +72,7 @@ class ONVIFClient:
         self.__paths_loaded = True
 
     def _get_transport(self):
-        return Transport()
+        return Transport(operation_timeout=self.__timeout)
 
     def get_new_service(self, name, raw_response):
         """
@@ -95,9 +96,9 @@ class ONVIFClient:
 
 
 class AsyncONVIFClient(ONVIFClient):
-    def __init__(self, host, port, username, password, loop=None):
+    def __init__(self, host, port, username, password, loop=None, timeout=None):
         self.loop = loop or asyncio.get_event_loop()
-        super().__init__(host, port, username, password)
+        super().__init__(host, port, username, password, timeout)
 
     def _get_transport(self):
-        return AsyncTransport(loop=self.loop)
+        return AsyncTransport(loop=self.loop, operation_timeout=self.__timeout)

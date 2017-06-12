@@ -16,7 +16,7 @@ class ONVIFClient:
         self.__host = host
         self.__port = int(port)
         self.__token = None
-        self.__timeout = timeout
+        self._timeout = timeout
         if username is not None and password is not None:
             self.__token = UsernameToken(username, password, use_digest=True)
         self.__transport = self._get_transport()
@@ -72,7 +72,7 @@ class ONVIFClient:
         self.__paths_loaded = True
 
     def _get_transport(self):
-        return Transport(operation_timeout=self.__timeout)
+        return Transport(operation_timeout=self._timeout)
 
     def get_new_service(self, name, raw_response):
         """
@@ -97,8 +97,8 @@ class ONVIFClient:
 
 class AsyncONVIFClient(ONVIFClient):
     def __init__(self, host, port, username, password, loop=None, timeout=None):
-        self.loop = loop or asyncio.get_event_loop()
+        self.__loop = loop or asyncio.get_event_loop()
         super().__init__(host, port, username, password, timeout)
 
     def _get_transport(self):
-        return AsyncTransport(loop=self.loop, operation_timeout=self.__timeout)
+        return AsyncTransport(loop=self.__loop, operation_timeout=self._timeout)

@@ -13,10 +13,10 @@ from onvif import settings
 class ONVIFClient:
 
     def __init__(self, host, port, username=None, password=None, timeout=None):
-        self.__host = host
-        self.__port = int(port)
+        self.host = host
+        self.port = int(port)
         self.__token = None
-        self._timeout = timeout
+        self.timeout = timeout
         if username is not None and password is not None:
             self.__token = UsernameToken(username, password, use_digest=True)
         self.__transport = self._get_transport()
@@ -42,8 +42,8 @@ class ONVIFClient:
             self.__load_paths()
         return "{scheme}://{host}:{port}{service_point}".format(
             scheme='http',
-            host=self.__host,
-            port=self.__port,
+            host=self.host,
+            port=self.port,
             service_point=self.__addr_paths.get(name)
         )
 
@@ -72,7 +72,7 @@ class ONVIFClient:
         self.__paths_loaded = True
 
     def _get_transport(self):
-        return Transport(operation_timeout=self._timeout)
+        return Transport(operation_timeout=self.timeout)
 
     def get_new_service(self, name, raw_response):
         """
@@ -101,4 +101,4 @@ class AsyncONVIFClient(ONVIFClient):
         super().__init__(host, port, username, password, timeout)
 
     def _get_transport(self):
-        return AsyncTransport(loop=self.__loop, operation_timeout=self._timeout)
+        return AsyncTransport(loop=self.__loop, operation_timeout=self.timeout)

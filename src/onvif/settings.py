@@ -13,6 +13,7 @@ class BindingDefinition:
 DEVICE = 'Device'
 MEDIA = 'Media'
 EVENT = 'Event'
+PULL_POINT_SUBSCRIPTION = 'PullPointSubscription'
 
 
 BINDINGS = {
@@ -30,6 +31,11 @@ BINDINGS = {
         wsdl='event.wsdl',
         namespace="http://www.onvif.org/ver10/events/wsdl",
         binding='EventBinding'
-    )
+    ),
+    PULL_POINT_SUBSCRIPTION: BindingDefinition(
+        wsdl='event.wsdl',
+        namespace="http://www.onvif.org/ver10/events/wsdl",
+        binding='PullPointSubscriptionBinding'
+    ),
 
 }

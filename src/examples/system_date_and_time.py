@@ -1,8 +1,8 @@
 from onvif.client import ONVIFClient
 
 onvif_client = ONVIFClient(
-    host='89.22.65.217',
-    port=10080,
+    host='10.19.57.126',
+    port=80,
     username='admin',
     password='Angelcam123',
 )

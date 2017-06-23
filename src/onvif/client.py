@@ -94,6 +94,10 @@ class ONVIFClient:
     def event(self):
         return self.__get_service(settings.EVENT)
 
+    @property
+    def pull_point_subscription(self):
+        return self.__get_service(settings.PULL_POINT_SUBSCRIPTION)
+
 
 class AsyncONVIFClient(ONVIFClient):
     def __init__(self, host, port, username, password, loop=None, timeout=None):

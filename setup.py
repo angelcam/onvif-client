@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name="onvif-client",
-    version='1.0',
+    version='1.1',
     description="ONVIF client based on Zeep library",
     keywords="ONVIF, Zeep",
     author="Angelcam",
@@ -10,8 +10,8 @@ setup(
     url="https://bitbucket.org/angelcam/onvif-client",
     license="MIT",
     long_description=open('README.md').read(),
-    install_requires=['zeep[async]==2.0.0'],
-    packages=['onvif'],
-    package_dir={'onvif': 'src/onvif'},
-    package_data={'onvif': ['wsdl/*.wsdl', 'wsdl/*.xsd']},
+    install_requires=['zeep[async]==2.3.0'],
+    packages=['onvif_client'],
+    package_dir={'onvif_client': 'src/onvif_client'},
+    package_data={'onvif_client': ['wsdl/*.wsdl', 'wsdl/*.xsd']},
 )

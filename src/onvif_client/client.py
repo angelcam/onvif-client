@@ -7,7 +7,7 @@ from zeep.transports import Transport
 
 from urllib.parse import urlparse
 
-from onvif import settings
+from onvif_client import settings
 
 
 class ONVIFClient:

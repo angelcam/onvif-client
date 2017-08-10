@@ -1,4 +1,4 @@
-from onvif.client import ONVIFClient
+from onvif_client import ONVIFClient
 
 onvif_client = ONVIFClient(
     host='89.22.65.217',

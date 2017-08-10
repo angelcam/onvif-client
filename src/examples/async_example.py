@@ -1,7 +1,7 @@
 import asyncio
 import time
 
-from onvif.client import ONVIFClient, AsyncONVIFClient
+from onvif_client import ONVIFClient, AsyncONVIFClient
 
 
 def run_async():
@@ -15,7 +15,7 @@ def run_async():
     def handle_future(future):
         print(future.result())
 
-    onvif_client = AsyncONVIFClient(
+    client = AsyncONVIFClient(
         host='10.19.57.72',
         port=80,
         username='admin',
@@ -23,7 +23,7 @@ def run_async():
         loop=loop
     )
 
-    tasks = [onvif_client.device.GetSystemDateAndTime() for i in range(0, 10)]
+    tasks = [client.device.GetSystemDateAndTime() for i in range(0, 10)]
 
     future = asyncio.gather(*tasks, return_exceptions=True)
 
@@ -39,7 +39,7 @@ def run_sync():
     print("============")
     st = time.time()
 
-    onvif_client = ONVIFClient(
+    client = ONVIFClient(
         host='10.19.57.72',
         port=80,
         username='admin',
@@ -47,7 +47,7 @@ def run_sync():
     )
 
     for i in range(0,10):
-        print(onvif_client.device.GetSystemDateAndTime())
+        print(client.device.GetSystemDateAndTime())
 
     print("Time: %.2f" % (time.time() - st))
     print("=============")

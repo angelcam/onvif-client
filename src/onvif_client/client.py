@@ -37,7 +37,7 @@ class ONVIFClient:
         else:
             return self.__create_service(name)
 
-    def __get_address(self, name):
+    def _get_address(self, name):
         if not (self.__paths_loaded or name == settings.DEVICE):
             self.__load_paths()
         return "{scheme}://{host}:{port}{service_point}".format(
@@ -58,7 +58,7 @@ class ONVIFClient:
     def __create_service(self, name):
         client = self.__get_client(name)
         binding = settings.BINDINGS.get(name).binding
-        address = self.__get_address(name)
+        address = self._get_address(name)
         service = client.create_service(binding, address)
         return service
 
@@ -96,9 +96,38 @@ class ONVIFClient:
 
 
 class AsyncONVIFClient(ONVIFClient):
-    def __init__(self, host, port, username, password, loop=None, timeout=None):
+    def __init__(self, host, port, username=None, password=None, timeout=None, loop=None):
         self.__loop = loop or asyncio.get_event_loop()
+        self.__addr_paths = {
+            settings.DEVICE: '/onvif/device_service',
+        }
+        self.__paths_loaded = False
         super().__init__(host, port, username, password, timeout)
 
     def _get_transport(self):
         return AsyncTransport(loop=self.__loop, operation_timeout=self.timeout)
+
+    def _get_address(self, name):
+        return "{scheme}://{host}:{port}{service_point}".format(
+            scheme='http',
+            host=self.host,
+            port=self.port,
+            service_point=self.__addr_paths.get(name)
+        )
+
+    async def __load_paths(self):
+        capabilities = await self.device.GetServices(IncludeCapability=False)
+        for capability in capabilities:
+            namespace = capability.Namespace
+            for name, binding in settings.BINDINGS.items():
+                if namespace == binding.namespace:
+                    self.__addr_paths[name] = urlparse(capability.XAddr).path
+        self.__paths_loaded = True
+
+    async def __aenter__(self):
+        if not self.__paths_loaded:
+            await self.__load_paths()
+        return self
+
+    async def __aexit__(self, exc_type, exc, tb):
+        return

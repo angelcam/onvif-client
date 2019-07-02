@@ -1,8 +1,8 @@
 from distutils.core import setup
 
 setup(
-    name="onvif-client",
-    version='1.1',
+    name="onvif_client",
+    version='1.3',
     description="ONVIF client based on Zeep library",
     keywords="ONVIF, Zeep",
     author="Angelcam",

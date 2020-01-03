@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name="onvif-client",
@@ -12,6 +12,6 @@ setup(
     long_description=open('README.md').read(),
     install_requires=['zeep[async]==2.3.0'],
     packages=['onvif_client'],
-    package_dir={'onvif_client': 'src/onvif_client'},
+    package_dir={'': 'src'},
     package_data={'onvif_client': ['wsdl/*.wsdl', 'wsdl/*.xsd']},
 )
